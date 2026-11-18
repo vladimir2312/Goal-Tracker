@@ -1,5 +1,23 @@
-﻿@*
-   
-*@
-@{
+﻿@model List<TelegrammMiniApp.Models.Goal>
+
+<h1>Мои цели</h1>
+
+@if (Model.Count == 0)
+{
+    <p>Пока нет целей. Нажми + чтобы добавить.</p>
 }
+else
+{
+    <ul>
+        @foreach (var g in Model)
+        {
+            var pct = g.TargetValue > 0 ? (int)(g.CurrentValue / g.TargetValue * 100) : 0;
+            <li>
+                <a href="/Goals/Details/@g.Id">@g.Title</a>
+                — @g.CurrentValue / @g.TargetValue @g.Unit (@pct%)
+            </li>
+        }
+    </ul>
+}
+
+<a href="/Goals/Create">+ Добавить цель</a>

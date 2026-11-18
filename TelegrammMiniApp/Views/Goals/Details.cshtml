@@ -1,5 +1,20 @@
-﻿@*
-   
-*@
-@{
+﻿@model TelegrammMiniApp.Models.Goal
+
+<a href="/Goals">← Назад</a>
+
+<h1>@Model.Title</h1>
+
+@if (!string.IsNullOrEmpty(Model.Description))
+{
+    <p>@Model.Description</p>
 }
+
+<p>Прогресс: @Model.CurrentValue / @Model.TargetValue @Model.Unit</p>
+
+<hr />
+<form method="post" asp-action="AddProgress" asp-route-id="@Model.Id">
+    @Html.AntiForgeryToken()
+    <label>Обновить прогресс:</label>
+    <input type="number" name="value" step="any" required />
+    <button type="submit">Сохранить</button>
+</form>
