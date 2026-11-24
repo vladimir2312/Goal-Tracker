@@ -336,3 +336,216 @@ button[type="submit"] {
     margin-bottom: 24px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
+/* --- ƒŒœŒÀÕ»“≈À‹Õ€≈ —“»À» ƒÀﬂ ‘Œ–Ã » ƒ≈“¿À≈… --- */
+.page-header {
+    margin-bottom: 24px;
+}
+
+    .page-header .subtitle {
+        color: var(--text-muted);
+        font-size: 14px;
+        margin-top: 4px;
+    }
+
+.glass-form {
+    background: var(--bg-surface);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    padding: 20px;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+    .form-group label {
+        display: block;
+        font-size: 14px;
+        color: var(--text-muted);
+        margin-bottom: 6px;
+        font-weight: 500;
+    }
+
+    .form-group .optional {
+        font-size: 12px;
+        opacity: 0.7;
+    }
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.form-actions {
+    margin-top: 24px;
+}
+
+.btn-primary {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-bottom: 12px;
+}
+
+    .btn-primary:hover {
+        background: #2b7ac9;
+    }
+
+.btn-secondary {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+    .btn-secondary:hover {
+        background: rgba(255,255,255,0.05);
+    }
+
+/* ƒÂÚ‡ÎË */
+.back-link {
+    display: inline-block;
+    color: var(--text-muted);
+    text-decoration: none;
+    margin-bottom: 16px;
+    font-size: 15px;
+}
+
+    .back-link:hover {
+        color: var(--text-main);
+    }
+
+.detail-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.detail-desc {
+    color: var(--text-muted);
+    margin: 12px 0;
+}
+
+.big-progress {
+    margin-top: 20px;
+}
+
+.big-progress-bar {
+    height: 12px;
+    background: #3a3a3c;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.big-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #3390ec, #00c6ff);
+    border-radius: 10px;
+    transition: width 0.5s ease;
+}
+
+.big-progress-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+    .big-progress-meta .pct {
+        color: var(--accent);
+        font-weight: 700;
+    }
+
+.action-panel {
+    background: var(--bg-surface);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 24px;
+}
+
+    .action-panel h3 {
+        margin-top: 0;
+        margin-bottom: 12px;
+    }
+
+.inline-form {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+    .inline-form input {
+        margin-bottom: 0;
+        flex: 1;
+    }
+
+    .inline-form .btn-primary {
+        width: auto;
+        margin-bottom: 0;
+        padding: 14px 20px;
+    }
+
+.danger-zone {
+    border-color: rgba(255, 59, 48, 0.3);
+}
+
+    .danger-zone p {
+        font-size: 13px;
+        color: var(--text-muted);
+        margin-bottom: 12px;
+    }
+/* --- —¬≈“À¿ﬂ “≈Ã¿ ƒÀﬂ TELEGRAM --- */
+body.tg-light {
+    --bg-base: #f4f4f5;
+    --bg-surface: #ffffff;
+    --text-main: #000000;
+    --text-muted: #8e8e93;
+    --glass-bg: rgba(255, 255, 255, 0.75);
+    --glass-border: rgba(0, 0, 0, 0.1);
+}
+
+    body.tg-light .goal-bar {
+        background-color: #e5e5ea;
+    }
+
+    body.tg-light .goal-card {
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+
+    body.tg-light .menu-btn {
+        color: var(--text-main);
+    }
+
+    body.tg-light .close-btn {
+        color: var(--text-muted);
+    }
+
+    body.tg-light .side-menu {
+        border-left: 1px solid rgba(0,0,0,0.1);
+    }
+
+    body.tg-light .big-progress-bar {
+        background: #e5e5ea;
+    }

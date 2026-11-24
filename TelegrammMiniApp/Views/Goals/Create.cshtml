@@ -3,36 +3,42 @@
     ViewData["Title"] = "Новая цель";
 }
 
-<h1>Новая цель</h1>
+<div class="page-header">
+    <h1>Новая цель</h1>
+    <p class="subtitle">Заполни данные, чтобы начать отслеживать прогресс</p>
+</div>
 
-<form method="post" asp-action="Create">
+<form method="post" asp-action="Create" class="glass-form">
     @Html.AntiForgeryToken()
 
-    <div>
-        <label>Название:</label>
+    <div class="form-group">
+        <label>Название</label>
         <input asp-for="Title" required placeholder="Например: Прочитать книги" />
     </div>
 
-    <div>
-        <label>Описание:</label>
-        <textarea asp-for="Description" placeholder="Дополнительная информация"></textarea>
+    <div class="form-group">
+        <label>Описание <span class="optional">(необязательно)</span></label>
+        <textarea asp-for="Description" rows="3" placeholder="Зачем тебе эта цель?"></textarea>
     </div>
 
-    <div>
-        <label>Цель (сколько нужно):</label>
-        <input asp-for="TargetValue" type="number" step="any" required placeholder="10" />
+    <div class="form-row">
+        <div class="form-group">
+            <label>Цель (сколько нужно)</label>
+            <input asp-for="TargetValue" type="number" step="any" required placeholder="10" />
+        </div>
+        <div class="form-group">
+            <label>Уже есть</label>
+            <input asp-for="CurrentValue" type="number" step="any" value="0" />
+        </div>
     </div>
 
-    <div>
-        <label>Текущий прогресс (сколько уже есть):</label>
-        <input asp-for="CurrentValue" type="number" step="any" value="0" />
+    <div class="form-group">
+        <label>Единица измерения</label>
+        <input asp-for="Unit" placeholder="книг, руб, км" />
     </div>
 
-    <div>
-        <label>Единица (руб/книг/км):</label>
-        <input asp-for="Unit" placeholder="книг" />
+    <div class="form-actions">
+        <button type="submit" class="btn-primary">Создать цель</button>
+        <a href="/Goals" class="btn-secondary">Отмена</a>
     </div>
-
-    <button type="submit">Создать</button>
-    <a href="/Goals" style="display:block; text-align:center; margin-top:12px; color:#8e8e93; text-decoration:none;">Отмена</a>
 </form>
