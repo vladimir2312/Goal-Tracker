@@ -3,18 +3,23 @@
 <a href="/Goals">← Назад</a>
 
 <h1>@Model.Title</h1>
-
-@if (!string.IsNullOrEmpty(Model.Description))
-{
-    <p>@Model.Description</p>
-}
-
+<p>@Model.Description</p>
 <p>Прогресс: @Model.CurrentValue / @Model.TargetValue @Model.Unit</p>
 
 <hr />
+
+<h3>Обновить прогресс</h3>
 <form method="post" asp-action="AddProgress" asp-route-id="@Model.Id">
     @Html.AntiForgeryToken()
-    <label>Обновить прогресс:</label>
+    <label>Новое значение:</label>
     <input type="number" name="value" step="any" required />
-    <button type="submit">Сохранить</button>
+    <button type="submit">Обновить</button>
+</form>
+
+<hr />
+
+<h3>Удалить цель</h3>
+<form method="post" asp-action="Delete" asp-route-id="@Model.Id" onsubmit="return confirm('Удалить цель?');">
+    @Html.AntiForgeryToken()
+    <button type="submit" style="color: red;">Удалить</button>
 </form>

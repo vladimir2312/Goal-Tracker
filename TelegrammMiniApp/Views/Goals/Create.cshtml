@@ -1,5 +1,4 @@
-﻿
-@model TelegrammMiniApp.Models.Goal
+﻿@model TelegrammMiniApp.Models.Goal
 
 <h1>Новая цель</h1>
 
@@ -17,8 +16,13 @@
     </div>
 
     <div>
-        <label>Цель:</label>
+        <label>Цель (сколько нужно):</label>
         <input asp-for="TargetValue" type="number" step="any" required />
+    </div>
+
+    <div>
+        <label>Текущий прогресс (сколько уже есть):</label>
+        <input asp-for="CurrentValue" type="number" step="any" value="0" />
     </div>
 
     <div>

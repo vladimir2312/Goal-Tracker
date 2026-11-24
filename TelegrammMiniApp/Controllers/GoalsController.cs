@@ -7,21 +7,37 @@ namespace TelegrammMiniApp.Controllers
 {
     public class GoalsController : Controller
     {
-       private readonly AppDbContext _db;
+        private readonly AppDbContext _db;
 
         public GoalsController(AppDbContext db)
         {
             _db = db;
         }
 
-        public async Task<IActionResult> Index() {
-
+        // GET: /Goals
+        public async Task<IActionResult> Index()
+        {
             var goals = await _db.Goals.ToListAsync();
             return View(goals);
-        }     
-   
+        }
+
+        // GET: /Goals/Details/5
+        public async Task<IActionResult> Details(int id)
+        {
+            var goal = await _db.Goals.FirstOrDefaultAsync(g => g.Id == id);
+            if (goal == null) return NotFound();
+            return View(goal);
+        }
+
+        // GET: /Goals/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: /Goals/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
+       [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Goal goal)
         {
             if (ModelState.IsValid)
@@ -32,15 +48,33 @@ namespace TelegrammMiniApp.Controllers
             }
             return View(goal);
         }
-        public IActionResult Create()
+
+        // POST: /Goals/AddProgress/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddProgress(int id, double value)
         {
-            return View();
-        }
-        public async Task<IActionResult> Details(int id)
-        {
-            var goal = await _db.Goals.FirstOrDefaultAsync(g => g.Id == id);
+            var goal = await _db.Goals.FindAsync(id);
             if (goal == null) return NotFound();
-            return View(goal);
+
+            goal.CurrentValue = value;
+            await _db.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Details), new { id = id });
+        }
+
+        // POST: /Goals/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var goal = await _db.Goals.FindAsync(id);
+            if (goal != null)
+            {
+                _db.Goals.Remove(goal);
+                await _db.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(Index));
         }
     }
 }
