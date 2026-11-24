@@ -1,4 +1,7 @@
 ﻿@model TelegrammMiniApp.Models.Goal
+@{
+    ViewData["Title"] = "Новая цель";
+}
 
 <h1>Новая цель</h1>
 
@@ -7,17 +10,17 @@
 
     <div>
         <label>Название:</label>
-        <input asp-for="Title" required />
+        <input asp-for="Title" required placeholder="Например: Прочитать книги" />
     </div>
 
     <div>
         <label>Описание:</label>
-        <textarea asp-for="Description"></textarea>
+        <textarea asp-for="Description" placeholder="Дополнительная информация"></textarea>
     </div>
 
     <div>
         <label>Цель (сколько нужно):</label>
-        <input asp-for="TargetValue" type="number" step="any" required />
+        <input asp-for="TargetValue" type="number" step="any" required placeholder="10" />
     </div>
 
     <div>
@@ -27,9 +30,9 @@
 
     <div>
         <label>Единица (руб/книг/км):</label>
-        <input asp-for="Unit" />
+        <input asp-for="Unit" placeholder="книг" />
     </div>
 
     <button type="submit">Создать</button>
-    <a href="/Goals">Отмена</a>
+    <a href="/Goals" style="display:block; text-align:center; margin-top:12px; color:#8e8e93; text-decoration:none;">Отмена</a>
 </form>

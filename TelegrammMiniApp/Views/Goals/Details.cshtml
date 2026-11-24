@@ -1,25 +1,41 @@
 ﻿@model TelegrammMiniApp.Models.Goal
+@{
+    ViewData["Title"] = Model.Title;
+}
 
-<a href="/Goals">← Назад</a>
+<a href="/Goals" style="display:inline-block; margin-bottom:16px;">← Назад</a>
 
 <h1>@Model.Title</h1>
-<p>@Model.Description</p>
-<p>Прогресс: @Model.CurrentValue / @Model.TargetValue @Model.Unit</p>
 
-<hr />
+@if (!string.IsNullOrEmpty(Model.Description))
+{
+    <p style="color:#8e8e93; margin-bottom:16px;">@Model.Description</p>
+}
+
+<!-- Прогресс-бар -->
+<div class="goal-bar" style="height: 12px; margin-bottom:8px;">
+    @{
+        var pct = Model.TargetValue > 0 ? (int)Math.Min(100, Model.CurrentValue / Model.TargetValue * 100) : 0;
+    }
+    <div class="goal-fill" style="width: @(pct)%;"></div>
+</div>
+<p style="text-align:right; font-size:14px; color:#8e8e93;">
+    @Model.CurrentValue / @Model.TargetValue @Model.Unit (@pct%)
+</p>
+
+<hr style="margin: 24px 0; border: none; border-top: 1px solid #e5e5ea;" />
 
 <h3>Обновить прогресс</h3>
 <form method="post" asp-action="AddProgress" asp-route-id="@Model.Id">
     @Html.AntiForgeryToken()
     <label>Новое значение:</label>
-    <input type="number" name="value" step="any" required />
+    <input type="number" name="value" step="any" required placeholder="Введите новое значение" />
     <button type="submit">Обновить</button>
 </form>
 
-<hr />
+<hr style="margin: 24px 0; border: none; border-top: 1px solid #e5e5ea;" />
 
-<h3>Удалить цель</h3>
 <form method="post" asp-action="Delete" asp-route-id="@Model.Id" onsubmit="return confirm('Удалить цель?');">
     @Html.AntiForgeryToken()
-    <button type="submit" style="color: red;">Удалить</button>
+    <button type="submit" class="btn-danger">Удалить цель</button>
 </form>

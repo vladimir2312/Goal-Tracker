@@ -1,23 +1,117 @@
 ﻿@model List<TelegrammMiniApp.Models.Goal>
+@{
+    ViewData["Title"] = "Дашборд";
 
-<h1>Мои цели</h1>
+    // Считаем общую статистику для графика
+    var totalCurrent = Model.Sum(g => g.CurrentValue);
+    var totalTarget = Model.Sum(g => g.TargetValue);
+    var totalPct = totalTarget > 0 ? (int)Math.Min(100, totalCurrent / totalTarget * 100) : 0;
+}
+
+<h1>Обзор</h1>
+
+<!-- Карточка общего прогресса (Glass эффект) -->
+<div class="dashboard-header">
+    <div class="stat-card">
+        <span class="stat-label">Всего целей</span>
+        <span class="stat-value">@Model.Count</span>
+    </div>
+    <div class="stat-card">
+        <span class="stat-label">Общий прогресс</span>
+        <span class="stat-value">@totalPct%</span>
+    </div>
+</div>
+
+<!-- Блок с графиком -->
+<div class="chart-container">
+    <canvas id="progressChart"></canvas>
+</div>
+
+<h3>Ваши цели</h3>
 
 @if (Model.Count == 0)
 {
-    <p>Пока нет целей. Нажми + чтобы добавить.</p>
+    <p style="text-align: center; color: var(--text-muted); margin-top: 40px;">Пока нет целей. Нажми + чтобы добавить.</p>
 }
 else
 {
-    <ul>
+    <div class="goal-list">
         @foreach (var g in Model)
         {
-            var pct = g.TargetValue > 0 ? (int)(g.CurrentValue / g.TargetValue * 100) : 0;
-            <li>
-                <a href="/Goals/Details/@g.Id">@g.Title</a>
-                — @g.CurrentValue / @g.TargetValue @g.Unit (@pct%)
-            </li>
+            var pct = g.TargetValue > 0 ? (int)Math.Min(100, g.CurrentValue / g.TargetValue * 100) : 0;
+
+            <!-- Добавили класс animate-in для JS анимации -->
+            <a href="/Goals/Details/@g.Id" class="goal-card animate-in">
+                <div class="goal-title">@g.Title</div>
+                <div class="goal-bar">
+                    <div class="goal-fill" style="width: @(pct)%;"></div>
+                </div>
+                <div class="goal-meta">
+                    <span>@g.CurrentValue / @g.TargetValue @g.Unit</span>
+                    <span>@pct%</span>
+                </div>
+            </a>
         }
-    </ul>
+    </div>
 }
 
-<a href="/Goals/Create">+ Добавить цель</a>
+<!-- Скрипт только для этой страницы -->
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // 1. JS Анимация появления карточек (каскадное появление)
+            const cards = document.querySelectorAll('.animate-in');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100); // Каждая следующая карточка появляется с задержкой 100мс
+            });
+
+            // 2. Рендер графика (Chart.js)
+            const ctx = document.getElementById('progressChart').getContext('2d');
+
+            // Данные для графика (названия целей и их прогресс в %)
+            const labels = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Select(g => g.Title)));
+            const data = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Select(g => g.TargetValue > 0 ? (g.CurrentValue / g.TargetValue * 100) : 0)));
+
+            new Chart(ctx, {
+                type: 'bar', // Можно поменять на 'line', 'doughnut'
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Прогресс %',
+                        data: data,
+                        backgroundColor: 'rgba(51, 144, 236, 0.7)',
+                        borderColor: 'rgba(51, 144, 236, 1)',
+                        borderWidth: 1,
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false } // Скрываем легенду для минимализма
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            grid: { color: 'rgba(255, 255, 255, 0.05)' }, // Темные линии сетки
+                            ticks: { color: '#8e8e93' }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#8e8e93' }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+}
